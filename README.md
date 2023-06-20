@@ -31,6 +31,16 @@
 ```
    yarn test or npm run test 
 ```               
+## e2e test
+
+```
+   yarn cypress:open or  npm run cypress:open
+   yarn cypress:run or  npm run cypress:run
+```      
+
+```
+   yarn test or npm run test 
+```               
 ## 打包分析
 
 ```

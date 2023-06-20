@@ -84,7 +84,7 @@ const LongList: FC<{ value: string }> = memo(({ value }) => {
     </div>
   );
 });
-const App: FC = () => {
+const App = () => {
   const inputRef = useRef<IInputRef>(null);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -96,12 +96,10 @@ const App: FC = () => {
   const [isPrinting, setIsPrinting] = useState(false);
   // flushSync
   useEffect(() => {
-    function handleBeforePrint() {
+    function handleBeforePrint(e: Event) {
       flushSync(() => {
         setIsPrinting(true);
-        console.log(isPrinting);
       });
-      console.log(isPrinting);
     }
 
     function handleAfterPrint() {
@@ -148,13 +146,19 @@ const App: FC = () => {
   return (
     <>
       <label>
-        <input value={query} onChange={(e) => setQuery(e.target.value)} />
+        <input
+          className="query"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
       </label>
       <label>
         <input value={num} type="number" onChange={onChange} />
       </label>
       <h1>is Printing {isPrinting ? "yes" : "no"}</h1>
-      <button onClick={window.print}>print</button>
+      <button onClick={window.print} className="btn">
+        print
+      </button>
       <LongList value={deferredQuery} />
       <Button ref={inputRef} />
       {isPending ? "loading" : multiples}
@@ -163,3 +167,5 @@ const App: FC = () => {
 };
 const root = createRoot(document.getElementById("app")!);
 root.render(<App />);
+
+export { App };

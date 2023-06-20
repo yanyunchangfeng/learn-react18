@@ -2,7 +2,7 @@ import type { Config } from "jest";
 import { defaults as tsjPreset } from "ts-jest/presets";
 
 const config: Config = {
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
   collectCoverage: true,
   transform: {
     ...tsjPreset.transform,
