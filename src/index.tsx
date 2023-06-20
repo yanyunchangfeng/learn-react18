@@ -9,9 +9,12 @@ import {
   useDeferredValue,
   memo,
   useImperativeHandle,
+  useTransition,
+  ChangeEvent,
 } from "react";
 import { createRoot } from "react-dom/client";
 import React from "react";
+import { flushSync } from "react-dom";
 document.body.innerHTML = '<div id= "app"></div>';
 let isInserted = new Set();
 const getStyleForRule = (rule: string) => {
@@ -85,23 +88,76 @@ const App: FC = () => {
   const inputRef = useRef<IInputRef>(null);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
+  const [isPending, startTransition] = useTransition();
+  const [num, setNum] = useState(0);
+  const [multiples, setMultiples] = useState<JSX.Element[]>([]);
+  // useInsertionEffect
   useCss(".black{background:black}");
+  const [isPrinting, setIsPrinting] = useState(false);
+  // flushSync
   useEffect(() => {
-    console.log(inputRef.current?.focus());
-    console.log(inputRef.current?.ss());
+    function handleBeforePrint() {
+      flushSync(() => {
+        setIsPrinting(true);
+        console.log(isPrinting);
+      });
+      console.log(isPrinting);
+    }
+
+    function handleAfterPrint() {
+      setIsPrinting(false);
+    }
+
+    window.addEventListener("beforeprint", handleBeforePrint);
+    window.addEventListener("afterprint", handleAfterPrint);
+    return () => {
+      window.removeEventListener("beforeprint", handleBeforePrint);
+      window.removeEventListener("afterprint", handleAfterPrint);
+    };
   }, []);
+  // useImperativeHandle
+  // useEffect(() => {
+  //   console.log(inputRef.current?.focus());
+  //   console.log(inputRef.current?.ss());
+  // }, []);
+  // useDeferredValue
+  // useEffect(() => {
+  //   console.log("query", query);
+  //   console.log("deferredQuery", deferredQuery);
+  // });
+
+  // startTransition
+  const generateMultiples = (num: number) => {
+    startTransition(() => {
+      //不用setTransition 当num数值改变后页面渲染直接卡死
+      setMultiples(
+        Array.from(Array(100000).keys()).map((i) => (
+          <div key={i}>{num * (i + 1)}</div>
+        ))
+      );
+    });
+  };
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNum(Number(e.target.value));
+  };
   useEffect(() => {
-    // console.log("query", query);
-    // console.log("deferredQuery", deferredQuery);
-  });
+    if (num > 0) {
+      generateMultiples(num);
+    }
+  }, [num]);
   return (
     <>
       <label>
-        Search albums:
         <input value={query} onChange={(e) => setQuery(e.target.value)} />
       </label>
+      <label>
+        <input value={num} type="number" onChange={onChange} />
+      </label>
+      <h1>is Printing {isPrinting ? "yes" : "no"}</h1>
+      <button onClick={window.print}>print</button>
       <LongList value={deferredQuery} />
       <Button ref={inputRef} />
+      {isPending ? "loading" : multiples}
     </>
   );
 };

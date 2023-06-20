@@ -12,8 +12,8 @@
    yarn or npm install 
    yarn start or npm start
 ```
-
-* [useLayoutEffect|useImperativeHandle|useInsertionEffect|useDeferredValue](src/index.tsx)
+## React18新特性
+* [ flushSync | useTransition | useDeferredValue | useLayoutEffect | useImperativeHandle | useInsertionEffect ](src/index.tsx)
 
 ## 系列项目
 
