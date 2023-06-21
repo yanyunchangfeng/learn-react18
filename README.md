@@ -4,7 +4,7 @@
 
 ## 介绍
 
-你好，我是[燕云长风](https://yanyunchangfeng.github.io)。
+你好，我是[燕云长风](https://yanyunchangfeng.github.io)。   
 寓意：结合李白著名的边塞诗《关山月》取【燕云长风】—— 长风几万里，吹度玉门关。
 
 ## 用法
@@ -13,7 +13,7 @@
    yarn start or npm start
 ```
 ## React18新特性
-* [ flushSync | useTransition | useDeferredValue | useLayoutEffect | useImperativeHandle | useInsertionEffect ](src/index.tsx)
+* [ flushSync | useTransition | useDeferredValue | useLayoutEffect | useImperativeHandle | useInsertionEffect | createPortal](src/index.tsx)
 
 ## 系列项目
 
@@ -31,16 +31,13 @@
 ```
    yarn test or npm run test 
 ```               
-## e2e test
+## 端到端测试
 
 ```
    yarn cypress:open or  npm run cypress:open
    yarn cypress:run or  npm run cypress:run
 ```      
-
-```
-   yarn test or npm run test 
-```               
+             
 ## 打包分析
 
 ```

@@ -13,10 +13,10 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const webpackBar = require("webpackbar");
 const { NODE_ENV, ANALYZE, UNUSED, MULTIPLE, UMD_LIBRARY } = process.env;
-const isDev = NODE_ENV === "development";
-isAnalyzerMode = ANALYZE === "1";
-isUnusedMode = UNUSED === "1";
-isMultiplePage = MULTIPLE === "1";
+const isDev = NODE_ENV === "development",
+  isAnalyzerMode = ANALYZE === "1",
+  isUnusedMode = UNUSED === "1",
+  isMultiplePage = MULTIPLE === "1";
 
 const noop = () => {};
 // module.exports = smw.wrap({ //需要包裹一层配置对象

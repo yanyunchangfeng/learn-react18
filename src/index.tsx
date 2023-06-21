@@ -10,12 +10,12 @@ import {
   memo,
   useImperativeHandle,
   useTransition,
-  ChangeEvent,
 } from "react";
 import { createRoot } from "react-dom/client";
 import React from "react";
-import { flushSync } from "react-dom";
-document.body.innerHTML = '<div id= "app"></div>';
+import { flushSync, createPortal } from "react-dom";
+import { Button, Input, InputNumber } from "antd";
+document.body.innerHTML = '<div id= "app" data-cy-root></div>';
 let isInserted = new Set();
 const getStyleForRule = (rule: string) => {
   let style = document.createElement("style");
@@ -39,7 +39,7 @@ interface IInputRef {
   focus: () => void;
   ss: () => void;
 }
-const Button = forwardRef<IInputRef, {}>((props, ref) => {
+const MyButton = forwardRef<IInputRef, {}>((props, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   useImperativeHandle(
     ref,
@@ -135,8 +135,8 @@ const App = () => {
       );
     });
   };
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNum(Number(e.target.value));
+  const onChange = (value: number | null) => {
+    setNum(Number(value));
   };
   useEffect(() => {
     if (num > 0) {
@@ -145,23 +145,18 @@ const App = () => {
   }, [num]);
   return (
     <>
-      <label>
-        <input
-          className="query"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </label>
-      <label>
-        <input value={num} type="number" onChange={onChange} />
-      </label>
+      <Input
+        className="query"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <InputNumber value={num} onChange={onChange} />
       <h1>is Printing {isPrinting ? "yes" : "no"}</h1>
-      <button onClick={window.print} className="btn">
-        print
-      </button>
+      <Button onClick={window.print}>print</Button>
       <LongList value={deferredQuery} />
-      <Button ref={inputRef} />
+      <MyButton ref={inputRef} />
       {isPending ? "loading" : multiples}
+      {createPortal(<Button>createPortal</Button>, document.body)}
     </>
   );
 };
