@@ -36,7 +36,7 @@ module.exports = {
   output: !UMD_LIBRARY
     ? {
         // 配置产物输出路径、名称等；
-        path: path.join(process.cwd(), "docs"),
+        path: path.join(process.cwd(), "dist"),
         filename: "[name].[contenthash].js", //入口代码块文件名的生成规则
         chunkFilename: "[name].[contenthash].js", //非入口模块的生成规则
         clean: true,
@@ -280,7 +280,7 @@ module.exports = {
             patterns: [
               {
                 from: path.resolve(process.cwd(), "src", "assets"),
-                to: path.resolve(process.cwd(), "docs"),
+                to: path.resolve(process.cwd(), "dist"),
               },
             ],
             options: {
