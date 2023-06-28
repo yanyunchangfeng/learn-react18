@@ -15,7 +15,7 @@ import { createRoot } from "react-dom/client";
 import React from "react";
 import { flushSync, createPortal } from "react-dom";
 import { Button, Input, InputNumber } from "antd";
-document.body.innerHTML = '<div id= "app" data-cy-root></div>';
+document.body.innerHTML = '<div id= "app" ></div>';
 let isInserted = new Set();
 const getStyleForRule = (rule: string) => {
   let style = document.createElement("style");
@@ -94,6 +94,14 @@ const App = () => {
   // useInsertionEffect
   useCss(".black{background:black}");
   const [isPrinting, setIsPrinting] = useState(false);
+  // 模拟useDeferredValue的实现
+  const [value, setValue] = useState("");
+  const [deferredValue, setDeferredValue] = useState("");
+  useEffect(() => {
+    startTransition(() => {
+      setDeferredValue(query);
+    });
+  }, [query, startTransition]);
   // flushSync
   useEffect(() => {
     function handleBeforePrint(e: Event) {
@@ -153,10 +161,11 @@ const App = () => {
       <InputNumber value={num} onChange={onChange} />
       <h1>is Printing {isPrinting ? "yes" : "no"}</h1>
       <Button onClick={window.print}>print</Button>
-      <LongList value={deferredQuery} />
+      {/* <LongList value={deferredQuery} />  下面是useDeferredValue的模拟实现*/}
+      <LongList value={deferredValue} />
       <MyButton ref={inputRef} />
       {isPending ? "loading" : multiples}
-      {createPortal(<Button>createPortal</Button>, document.body)}
+      {/* {createPortal(<Button>createPortal</Button>, document.body)} react-test-render not support for portal*/}
     </>
   );
 };
